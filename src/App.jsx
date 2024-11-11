@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const useField = (type) => {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState('');
 
   const onChange = (event) => {
-    setValue(event.target.value)
-  }
+    setValue(event.target.value);
+  };
 
   const reset = () => {
     setValue('');
@@ -17,11 +17,11 @@ const useField = (type) => {
     value,
     onChange,
     reset
-  }
-}
+  };
+};
 
 const useResource = (baseUrl) => {
-  const [resources, setResources] = useState([])
+  const [resources, setResources] = useState([]);
 
   useEffect(() => {
     axios.get(baseUrl).then(res => setResources(res.data));
@@ -40,29 +40,29 @@ const useResource = (baseUrl) => {
 
   return [
     resources, service
-  ]
-}
+  ];
+};
 
 const App = () => {
-  const content = useField('text')
-  const name = useField('text')
-  const number = useField('text')
+  const content = useField('text');
+  const name = useField('text');
+  const number = useField('text');
 
-  const [notes, noteService] = useResource('http://localhost:3005/notes')
-  const [persons, personService] = useResource('http://localhost:3005/persons')
+  const [notes, noteService] = useResource('http://localhost:3005/notes');
+  const [persons, personService] = useResource('http://localhost:3005/persons');
 
   const handleNoteSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     noteService.create({ content: content.value })
     content.reset();
-  }
+  };
  
   const handlePersonSubmit = (event) => {
-    event.preventDefault()
-    personService.create({ name: name.value, number: number.value})
+    event.preventDefault();
+    personService.create({ name: name.value, number: number.value});
     name.reset();
     number.reset();
-  }
+  };
 
   return (
     <div>
@@ -81,7 +81,7 @@ const App = () => {
       </form>
       {persons.map(n => <p key={n.id}>{n.name} {n.number}</p>)}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
